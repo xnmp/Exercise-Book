@@ -1,0 +1,704 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman times
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family rmdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Support Vector Machines
+\end_layout
+
+\begin_layout Section
+Linear SVM
+\end_layout
+
+\begin_layout Standard
+We have a set of points 
+\begin_inset Formula $\left(x_{i},y_{i}\right)$
+\end_inset
+
+ where each 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+ is a vector and each 
+\begin_inset Formula $y_{i}$
+\end_inset
+
+ is either -1 or 1.
+\end_layout
+
+\begin_layout Subsection
+Hard Margin
+\end_layout
+
+\begin_layout Itemize
+First consider the line 
+\begin_inset Formula $L=\left\{ y=mx\right\} $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+What is the distance from a point 
+\begin_inset Formula $p_{0}=\left(x_{0},y_{0}\right)$
+\end_inset
+
+ to this line?
+\end_layout
+
+\begin_layout Itemize
+As we know from high school the answer is 
+\begin_inset Formula $p_{0}\cdot n$
+\end_inset
+
+ where 
+\begin_inset Formula $n$
+\end_inset
+
+ is the unit normal of the line.
+ 
+\end_layout
+
+\begin_layout Itemize
+The equation 
+\begin_inset Formula $n\cdot p_{0}+\tilde{b}=0$
+\end_inset
+
+ defines the set of points lying on another line with gradient 
+\begin_inset Formula $m$
+\end_inset
+
+, but with a different intercept.
+ 
+\end_layout
+
+\begin_layout Itemize
+In fact, for the line (defined by) 
+\begin_inset Formula $y=mx+\tilde{b}$
+\end_inset
+
+, then the points lying on the line is defined by 
+\begin_inset Formula $\left(p_{0}-\tilde{b}\right)\cdot n=0$
+\end_inset
+
+, ie 
+\begin_inset Formula $p_{0}\cdot n-\tilde{b}\cdot n=0$
+\end_inset
+
+, and we can denote 
+\begin_inset Formula $b=\tilde{b}\cdot n$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+The Optimization Problem
+\end_layout
+
+\begin_layout Itemize
+Equivalently this can be written 
+\begin_inset Formula 
+\[
+\frac{1}{\left\Vert w\right\Vert }\left(w\cdot p_{0}+\frac{b}{\left\Vert w\right\Vert }\right)=0
+\]
+
+\end_inset
+
+We need to find 
+\begin_inset Formula $w$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+ to maximize the 
+\begin_inset Quotes eld
+\end_inset
+
+margin
+\begin_inset Quotes erd
+\end_inset
+
+, in this case 
+\begin_inset Formula $1/\left\Vert w\right\Vert $
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+This is basically saying find 
+\begin_inset Formula $w$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+ such that 
+\begin_inset Formula $w\cdot x_{i}+b\geq1$
+\end_inset
+
+ if 
+\begin_inset Formula $y_{i}=1$
+\end_inset
+
+, and 
+\begin_inset Formula $w\cdot x_{i}+b\leq-1$
+\end_inset
+
+ if 
+\begin_inset Formula $y_{i}=-1$
+\end_inset
+
+, and such that 
+\begin_inset Formula $\left\Vert w\right\Vert $
+\end_inset
+
+ is minimized.
+ 
+\end_layout
+
+\begin_layout Itemize
+Ie, minimize 
+\begin_inset Formula $\left\Vert w\right\Vert $
+\end_inset
+
+ such that 
+\begin_inset Formula 
+\[
+\mbox{sgn}\left(w\cdot x_{i}+b\right)=y_{i}
+\]
+
+\end_inset
+
+for all 
+\begin_inset Formula $i$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+The point is that getting 
+\begin_inset Formula $n$
+\end_inset
+
+ and 
+\begin_inset Formula $\tilde{b}$
+\end_inset
+
+ is equivalent to specifying a hyperplane.
+ The margin is then 
+\begin_inset Formula 
+\[
+\frac{1}{\left\Vert w\right\Vert }=\min_{i}\left(n\cdot x_{i}-\tilde{b}\right)
+\]
+
+\end_inset
+
+The good part about 
+\begin_inset Formula $w$
+\end_inset
+
+ is that we can get rid of more unknowns in the constraint.
+ 
+\end_layout
+
+\begin_layout Subsection
+Soft Margin
+\end_layout
+
+\begin_layout Itemize
+If the classification is wrong, we need a measure of how wrong it is.
+\end_layout
+
+\begin_layout Itemize
+This can be given by the hinge loss
+\begin_inset Formula 
+\[
+L\left(x,y\right)=\max\left(0,1-\left(w\cdot x+b\right)y\right)
+\]
+
+\end_inset
+
+Now minimize the average hinge loss.
+\end_layout
+
+\begin_layout Itemize
+Remark: This is conceptually similar not entirely equivalent to maximizing
+\begin_inset Formula 
+\[
+\left(w\cdot x+b\right)y
+\]
+
+\end_inset
+
+which is what was done at [1].
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Regularization
+\end_layout
+
+\begin_layout Itemize
+Have a parameter 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ that regulates the tradeoff between the margin and the hinge loss.
+\end_layout
+
+\begin_layout Itemize
+Ie between getting more points right and getting wrong points less wrong.
+\end_layout
+
+\begin_layout Itemize
+Now minimize
+\begin_inset Formula 
+\[
+\frac{1}{n}\sum_{i}^{n}L\left(x_{i},y_{i}\right)+\lambda\left\Vert w\right\Vert 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+General Kernels
+\end_layout
+
+\begin_layout Standard
+What's actually happening here?
+\end_layout
+
+\begin_layout Itemize
+We're basically picking a function 
+\begin_inset Formula $f$
+\end_inset
+
+ so that the predictions are given by 
+\begin_inset Formula 
+\begin{eqnarray*}
+\mbox{pred}\left(x\right) & = & \mbox{sgn}\left(f\left(x\right)+b\right)\\
+f\left(x\right) & = & w\cdot x\\
+ & = & \sum_{j}w_{j}x_{j}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Of course, we pick 
+\begin_inset Formula $f$
+\end_inset
+
+ to minimize the hinge loss
+\begin_inset Formula 
+\begin{eqnarray*}
+L\left(x_{i},y_{i}\right) & = & \max\left(1-y_{i}\left(f\left(x_{i}\right)+b\right),0\right)\\
+\bar{L} & = & \frac{1}{N}\sum_{i=1}^{N}L\left(x_{i},y_{i}\right)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+RBF Kernel
+\end_layout
+
+\begin_layout Standard
+This is where it gets more interesting: we can pick something else for 
+\begin_inset Formula $f$
+\end_inset
+
+
+\begin_inset Formula 
+\[
+f\left(x\right)=\sum_{i}^{n}w_{i}y_{i}\exp\left(-4\left\Vert x_{i}-x\right\Vert ^{2}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Think of this as just superimposing a Gaussian hump on top of every point
+ in the training dataset, pointing up or down depending on 
+\begin_inset Formula $y_{i}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+Then to classify a point, just look at whether the humps sum to something
+ positive at that location.
+ 
+\end_layout
+
+\begin_layout Subsection
+General
+\end_layout
+
+\begin_layout Standard
+In fact we actually pick anything for 
+\begin_inset Formula $f$
+\end_inset
+
+, as long as it's of the form 
+\begin_inset Formula 
+\[
+f\left(x\right)=\sum_{i}\alpha_{i}y_{i}K\left(x_{i},x\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+We require that 
+\begin_inset Formula $K$
+\end_inset
+
+ be positive-semidefinite.
+ (otherwise there might be more than one solution).
+ 
+\end_layout
+
+\begin_layout Itemize
+Without the positive semidefinite property all of these optimization problems
+ would be able to “run to negative infinity” or use negative terms [1].
+\end_layout
+
+\begin_layout Itemize
+Remark: the 
+\begin_inset Formula $\alpha_{i}$
+\end_inset
+
+ are positive, otherwise having 
+\begin_inset Formula $y_{i}$
+\end_inset
+
+ would be redundant (it would also imply we could flip the sign of 
+\begin_inset Formula $K$
+\end_inset
+
+ with impunity, which is false).
+ 
+\end_layout
+
+\begin_layout Subsection
+Recasting the Linear Kernel
+\end_layout
+
+\begin_layout Standard
+To compare the above to the linear kernel, write 
+\begin_inset Formula 
+\begin{eqnarray*}
+K\left(x_{i},x\right) & = & \left\langle x_{i},x\right\rangle =\sum_{j}^{n}x_{ij}x_{j}\\
+f\left(x\right) & = & \sum_{i}\alpha_{i}y_{i}\sum_{j}^{n}x_{ij}x_{j}\\
+ & = & \sum_{j}^{n}\left(\sum_{i}\alpha_{i}y_{i}x_{ij}\right)x_{j}
+\end{eqnarray*}
+
+\end_inset
+
+So that 
+\begin_inset Formula 
+\begin{eqnarray*}
+w_{j} & = & \sum_{i}\alpha_{i}y_{i}x_{ij}\\
+w & = & \sum_{i}\alpha_{i}y_{i}x_{i}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Ie we have a linear combination of dot prducts which will reduce to just
+ a dot product in the end.
+\end_layout
+
+\begin_layout Itemize
+Graphically, think of it like this: the 3d plot for 
+\begin_inset Formula $x\cdot y$
+\end_inset
+
+ is just a tilted plane that passes through the origin.
+ Superimposing such planes results in just another such plane.
+ Eventually you just get a plane, and this is what you're testing is greater
+ or less than zero.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Support Vectors
+\end_layout
+
+\begin_layout Standard
+Are those for which 
+\begin_inset Formula $w_{i}\neq0$
+\end_inset
+
+.
+ In the linear case there are two points 
+\begin_inset Formula $p_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $p_{2}$
+\end_inset
+
+ such that 
+\begin_inset Formula $p_{1}-p_{2}$
+\end_inset
+
+ is parallel to the dividing line.
+ But this isn't necessarily the only way.
+ 
+\end_layout
+
+\begin_layout Subsection
+Higher Dimensional Projection
+\end_layout
+
+\begin_layout Standard
+Abstractly, the positive-definiteness can be captured by setting 
+\begin_inset Formula $K\left(x_{1},x_{2}\right)=\left\langle \phi\left(x_{1}\right),\phi\left(x_{2}\right)\right\rangle $
+\end_inset
+
+ where 
+\begin_inset Formula $\phi:V\to W$
+\end_inset
+
+ is some map between inner product spaces.
+ 
+\end_layout
+
+\begin_layout Standard
+For example
+\begin_inset Formula 
+\[
+\phi:\left(x,y\right)\mapsto\left(x,y,x^{2}+y^{2}\right)
+\]
+
+\end_inset
+
+So that 
+\begin_inset Formula 
+\begin{eqnarray*}
+K\left(x,y\right) & = & \phi\left(x\right)\cdot\phi\left(y\right)\\
+ & = & x\cdot y+\left(x_{1}^{2}+x_{2}^{2}\right)\left(y_{1}^{2}+y_{2}^{2}\right)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Note that this doesn't imply conjugate symmetry or sesquilinearity at all,
+ since 
+\begin_inset Formula $\phi$
+\end_inset
+
+ can be anything, perhaps even discontinuous.
+ 
+\end_layout
+
+\begin_layout Itemize
+The whole projection to a higher dimensional space metaphor/interpretation
+ really isn't all that useful.
+ It's really trying to apply the intuition of the linear kernel to general
+ kernels, when the other way around is much more natural.
+ 
+\end_layout
+
+\begin_layout Subsection
+Relationship to kNN
+\end_layout
+
+\begin_layout Itemize
+The SVM is actually the same as weighted kNN with 
+\begin_inset Formula $k$
+\end_inset
+
+ infinite, except that in this case 
+\begin_inset Formula $\alpha_{i}=1$
+\end_inset
+
+ for all 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+So an SVM is like a weighted kNN on steroids.
+ 
+\end_layout
+
+\begin_layout Itemize
+Note that the rbf kernel is not separable, ie cannot be written in the form
+ 
+\begin_inset Formula 
+\[
+\exp\left(-4\left\Vert x_{i}-x\right\Vert ^{2}\right)=f\left(x_{i}\right)g\left(x\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Relationship to Logistic Regression
+\end_layout
+
+\begin_layout Itemize
+Remember that
+\begin_inset Formula 
+\begin{eqnarray*}
+\log\left(\frac{p}{1-p}\right) & = & \sum_{i}w_{i}x_{i}\\
+ & = & w\cdot x
+\end{eqnarray*}
+
+\end_inset
+
+and
+\begin_inset Formula 
+\[
+\mbox{pred}\left(x\right)=\mbox{sgn}\left(w\cdot x+\beta\right)
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\beta$
+\end_inset
+
+ is some function of the probability threshold.
+ 
+\end_layout
+
+\begin_layout Itemize
+So you're optimizing 
+\begin_inset Formula $w$
+\end_inset
+
+ again, which is the vector of coefficients.
+ 
+\end_layout
+
+\begin_layout Itemize
+What we have is a linear SVM where you're maximizing the log likelihood
+ instead of the margin (or minimizing the hinge loss).
+ 
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-1"
+
+\end_inset
+
+http://www.win-vector.com/blog/2011/10/kernel-methods-and-support-vector-machines-
+de-mystified/
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "key-2"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
