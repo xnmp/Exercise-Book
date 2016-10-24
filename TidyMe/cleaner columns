@@ -1,0 +1,46 @@
+['id'
+sign_in_count
+address
+city
+postcode
+
+ 'start_date',
+
+ 'deleted_at',
+
+
+ 'latitude',
+ 'longitude',
+
+ 'changed_availabilities',
+
+ 'rating_all_time',
+ 'rating_this_week',
+
+ 'occurrences_all_time',
+ 'occurrences_for_churned_jobs_all_time',
+
+ 'birthday',
+
+
+ 'student',
+
+ 'target_hours',
+ 'hours_this_week',
+ 'utilization_this_week',
+ 'hours_previous_week',
+ 'utilization_previous_week',
+ 'hours_next_week',
+ 'utilization_next_week',
+ 'zones',
+ 'gender',
+
+ 'pair_clean',
+
+
+ 'insurance_covered_by_tidyme',
+
+ 'residency_visa_status',
+ 'visa_expires',
+
+ 'language']

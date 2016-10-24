@@ -1,0 +1,49 @@
+['id',
+ 'bedrooms',
+ 'bathrooms',
+ 'frequency',
+
+ 'address',
+ 'city',
+ 'postcode',
+
+ 'created_at',
+ 'updated_at',
+
+
+ 'cleaner_id',
+ 'canceled_at',
+
+ 'cleaning_essential',
+
+ 'first_booking_time',
+
+ 'stripe_customer_id',			 ??
+ 'customer_id',
+
+
+ 'price_scheme',
+ 'extras',
+ 'cancellation_reason',
+'through_admin',
+
+ 'paused_at',
+ 'paused_until',
+
+ 'referrer_id',
+ 'latitude',
+ 'longitude',
+
+ 'coupon_code',
+ 'coupon_value',
+
+ 'custom_price',
+ 'custom_duration',
+
+
+ 'ideal_cleaner_id',
+
+ 'number_of_cleaners',
+
+ 'postcode_id',
+ 'zone_id']

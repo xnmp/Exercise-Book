@@ -1,0 +1,553 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman times
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family rmdefault
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+TidyMe
+\end_layout
+
+\begin_layout Standard
+Thesis: churn is caused by suboptimal allocation of cleaners to jobs
+\end_layout
+
+\begin_layout Subsubsection
+Cleaners Want
+\end_layout
+
+\begin_layout Itemize
+not to travel too far 
+\end_layout
+
+\begin_layout Itemize
+to have some notice for the jobs they're required for 
+\end_layout
+
+\begin_layout Itemize
+to have a continuous schedule to have work in all of their availability
+ slots 
+\end_layout
+
+\begin_layout Itemize
+to hit their target hours
+\end_layout
+
+\begin_layout Subsubsection
+Customers Want
+\end_layout
+
+\begin_layout Itemize
+to reliably be able to get the job done 
+\end_layout
+
+\begin_layout Itemize
+to have a good cleaning job to know that the cleaner is trustworthy
+\end_layout
+
+\begin_layout Subsection
+Hypothesis
+\end_layout
+
+\begin_layout Enumerate
+Cleaners want to develop relationships with the customers (preferred cleaner
+ for a job).
+ 
+\end_layout
+
+\begin_layout Enumerate
+Cleaners will leave if they can't hit their target hours.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Or if their jobs are too scattered in time.
+ This means having say half of their availabilities filled.
+ 
+\end_layout
+
+\begin_layout Enumerate
+If they keep getting last minute calls, meaning they have to leave their
+ schedule empty in case they get work.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Or if they have to do too much travelling.
+ But we have to keep in mind that filling in one job for the closest guy
+ might leave someone else without any close jobs.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Customers will leave if they don't get their jobs done satisfactorily.
+ This will happen if there aren't enough available cleaners, or they have
+ to get a random cleaner and they don't like the cleaner (no relationship).
+ 
+\end_layout
+
+\begin_layout Enumerate
+The customer doesn't get what they ant - something specific like windows
+\end_layout
+
+\begin_layout Enumerate
+Cleaners all get paid equally, senior ceaners get resentful.
+ 
+\end_layout
+
+\begin_layout Subsection
+Testing
+\end_layout
+
+\begin_layout Enumerate
+Nothing really here, but a good matching algorithm has to use the same cleaner
+ every time with all else being equal.
+ Perhaps need to ask the cleaner if they can do the same job every week.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Look at utilization against churn.
+ This is actually time series data - look at the data of a bunch of guys
+ 
+\emph on
+AT a particular point
+\emph default
+, and predict if they're going to leave in the next month.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Get a scattering score: the 
+\begin_inset Quotes eld
+\end_inset
+
+continuity
+\begin_inset Quotes erd
+\end_inset
+
+ of the schedule, do the prediction as in 2.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Look at the number of last minute calls, how many they get a week, as a
+ proportion of all calls, how many they turn down.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Look at the distance travelled, average distance travelled, maybe can scrape
+ the average travel time.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Customers with satisfaction rating, and whether their jobs ended up getting
+ completed.
+ 
+\end_layout
+
+\begin_layout Subsection
+Matching Algorithm
+\end_layout
+
+\begin_layout Standard
+Need to have a score for the goodness of the occurence to cleaner assignment.
+ This score takes into account the following factors:
+\end_layout
+
+\begin_layout Itemize
+Same cleaner every time, so that there can be a relationship between the
+ cleaner and the customer.
+ 
+\end_layout
+
+\begin_layout Itemize
+The utilization score for each cleaner.
+ To minimize churn: best utilize some and keep others empty so that all
+ least the fully utilized ones stay and become loyal.
+ But if there's a certain threshold, say 70% utilization where they're not
+ going to churn.
+ Then just keep them all at the bare minimum.
+ 
+\end_layout
+
+\begin_layout Itemize
+The schedule continuity.
+ 
+\end_layout
+
+\begin_layout Itemize
+The expected number of last minute calls that need to be made.
+ 
+\end_layout
+
+\begin_layout Itemize
+The distance travelled in aggregate.
+ Do all of this to minimize churn.
+ 
+\end_layout
+
+\begin_layout Itemize
+The probability of getting the job done, and doing it with no complaints,
+ is related to the cleaner rating and other facotrs.
+ Maximizez this number
+\end_layout
+
+\begin_layout Itemize
+Language
+\end_layout
+
+\begin_layout Itemize
+Gender
+\end_layout
+
+\begin_layout Section
+Data structure
+\end_layout
+
+\begin_layout Subsection
+Occurences
+\end_layout
+
+\begin_layout Standard
+This is the main table.
+\end_layout
+
+\begin_layout Itemize
+booking time, end time
+\end_layout
+
+\begin_layout Itemize
+cancelled, refund
+\end_layout
+
+\begin_layout Itemize
+late arrival predicted, incomplete, completion reported
+\end_layout
+
+\begin_layout Itemize
+contacted cleaners (cannot find any availabilities, nobody selected the
+ job, so they call around).
+ 
+\end_layout
+
+\begin_layout Itemize
+feedback rating, text, reason, hidden, amended, reportedq
+\end_layout
+
+\begin_layout Subsubsection
+Foreign keys: 
+\end_layout
+
+\begin_layout Itemize
+job
+\end_layout
+
+\begin_layout Itemize
+cleaner
+\end_layout
+
+\begin_layout Itemize
+customer
+\end_layout
+
+\begin_layout Subsubsection
+Reduandant
+\end_layout
+
+\begin_layout Standard
+extras, price, custom duration, number of cleaners, cleaners_count
+\end_layout
+
+\begin_layout Subsubsection
+Dont Know
+\end_layout
+
+\begin_layout Standard
+Custom cleaner durations, bundle first, applicant id, check in, check out
+ - nobody uses this
+\end_layout
+
+\begin_layout Subsection
+Jobs
+\end_layout
+
+\begin_layout Itemize
+Beds, baths, frequency
+\end_layout
+
+\begin_layout Itemize
+extras
+\end_layout
+
+\begin_layout Itemize
+price scheme
+\end_layout
+
+\begin_layout Itemize
+ideal cleaner
+\end_layout
+
+\begin_layout Itemize
+number of cleaners
+\end_layout
+
+\begin_layout Itemize
+cancelled at, cancellation reason
+\end_layout
+
+\begin_layout Itemize
+essential
+\end_layout
+
+\begin_layout Itemize
+custom_price/duraction
+\end_layout
+
+\begin_layout Subsubsection
+Foreign Keys: 
+\end_layout
+
+\begin_layout Itemize
+Address
+\end_layout
+
+\begin_layout Itemize
+Customer
+\end_layout
+
+\begin_layout Subsubsection
+Other
+\end_layout
+
+\begin_layout Standard
+paused at/until, coupon code/value, first_booking_time, used_recommended_booking
+_time
+\end_layout
+
+\begin_layout Subsubsection
+Don't Know
+\end_layout
+
+\begin_layout Standard
+through admin, referrer_id, stripe customer id, create and update date,
+ 
+\emph on
+\bar under
+cleaner id
+\emph default
+\bar default
+.
+ 
+\end_layout
+
+\begin_layout Subsection
+Cleaners
+\end_layout
+
+\begin_layout Itemize
+Deleted at
+\end_layout
+
+\begin_layout Itemize
+Ratings: all time and this week
+\end_layout
+
+\begin_layout Itemize
+Target hours
+\end_layout
+
+\begin_layout Subsubsection
+Foreign Keys:
+\end_layout
+
+\begin_layout Itemize
+Address
+\end_layout
+
+\begin_layout Subsubsection
+Other: 
+\end_layout
+
+\begin_layout Standard
+age, language, gender, student, sign in count
+\end_layout
+
+\begin_layout Subsubsection
+Derived columns: 
+\end_layout
+
+\begin_layout Standard
+hours this week, prev week, next week, utilization.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Don't know
+\end_layout
+
+\begin_layout Standard
+Changed availabilities, pair clean, 
+\end_layout
+
+\begin_layout Subsubsection
+Irrelevant: 
+\end_layout
+
+\begin_layout Standard
+insurance covered, visa status
+\end_layout
+
+\begin_layout Subsection
+Customers
+\end_layout
+
+\begin_layout Itemize
+Start date
+\end_layout
+
+\begin_layout Itemize
+Deleted at
+\end_layout
+
+\begin_layout Subsubsection
+Other
+\end_layout
+
+\begin_layout Standard
+Preferred gender, disliked cleaners, age, invitation tokens
+\end_layout
+
+\begin_layout Subsubsection
+Redundant
+\end_layout
+
+\begin_layout Standard
+Zones, occurence count
+\end_layout
+
+\begin_layout Subsubsection
+Don't Know
+\end_layout
+
+\begin_layout Standard
+Sign in count, stripe, referral, Happiness status - nobody uses it
+\end_layout
+
+\begin_layout Subsection
+Availabilities
+\end_layout
+
+\begin_layout Itemize
+Cleaner_id (foreign key)
+\end_layout
+
+\begin_layout Itemize
+Start time and end time
+\end_layout
+
+\begin_layout Itemize
+Vacant frequency
+\end_layout
+
+\begin_layout Subsubsection
+Other
+\end_layout
+
+\begin_layout Standard
+Created time, updated, availability time, zonid
+\end_layout
+
+\begin_layout Subsection
+Locations
+\end_layout
+
+\begin_layout Itemize
+Address (Primary Key)
+\end_layout
+
+\begin_layout Itemize
+Latitude
+\end_layout
+
+\begin_layout Itemize
+Longitude
+\end_layout
+
+\begin_layout Itemize
+Zone
+\end_layout
+
+\begin_layout Itemize
+Postcode
+\end_layout
+
+\end_body
+\end_document

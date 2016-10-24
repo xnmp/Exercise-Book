@@ -1,0 +1,36 @@
+['id',
+ 'job_id',
+
+ 'booking_time',
+ 'end_time',
+ 'created_at',
+ 'updated_at',
+ 'canceled_at',
+ 'checked_in_at',
+ 'checked_out_at',
+
+ 'extras',
+ 'custom_duration',
+ 'price',
+
+ 'feedback_rating',
+ 'feedback_text',
+ 'feedback_reason',
+ 'hidden_feedback',
+ 'amended_rating',
+ 'feedback_reported',
+
+ 'late_arrival_predicted',
+ 'incomplete',
+ 'completion_reported',
+ 'refund',
+
+ 'contacted_cleaners',
+ 'number_of_cleaners',
+ 'cleaners_count',
+ 'custom_cleaner_durations',
+
+ 'bundle_first_id',
+ 'bundle_first_booking_time',
+ 'applicant_id'
+]

@@ -1,0 +1,30 @@
+hypothesis: churn is caused by suboptimal allocation of cleaners to jobs
+
+cleaners want:
+- not to travel too far
+- to have some notice for the jobs they're required for
+- to have a continuous schedule
+  to have work in all of their availability slots
+- to hit their target hours
+
+customers want:
+- to reliably be able to get the job done
+- to have a good cleaning job
+  to know that the cleaner is trustworthy
+
+
+- cleaners want to develop relationships with the customers (preferred cleaner for a job)
+- cleaners will leave if they can't hit their target hours
+  - or if they have to do too much travelling,
+  - or if their jobs are too scattered in time
+- customers will leave if they don't get their jobs done satisfactorily
+
+
+Steps in this project:
+- state the hypothesis
+- test the hypothesis
+- use the hypothesis to make a better matching algorithm
+
+Data structure
+- occurences: this is the main table
+
